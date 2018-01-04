@@ -1,0 +1,2 @@
+FileName1	FileName2	SampleName
+trimmed/atac1f2_S1_L008_R1_001.fastq.gz	trimmed/atac1f2_S1_L008_R2_001.fastq.gz	atac1f2
