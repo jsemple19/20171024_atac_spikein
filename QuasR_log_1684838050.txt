@@ -1,6 +1,0 @@
-[1] "Decompressing file on staff-200-195.eduroam.unibe.ch : /Users/semple/Documents/MeisterLab/sequencingData/20171024_atac_spikein/rawData/atac1f2_S1_L008_R1_001.fastq.gz"
-[1] "Decompressing file on staff-200-195.eduroam.unibe.ch : /Users/semple/Documents/MeisterLab/sequencingData/20171024_atac_spikein/rawData/atac1f2_S1_L008_R2_001.fastq.gz"
-[1] "Executing bowtie on staff-200-195.eduroam.unibe.ch using 1 cores. Parameters:"
-[1] "'/Users/semple/Documents/MeisterLab/GenomeVer/sequence/c_elegans.PRJNA13758.WS250.genomic.fa.Rbowtie/bowtieIndex' -1 '/var/folders/kz/whz8fzds0l17nwr80rzmymph0000gn/T//RtmpFV1Uu7/atac1f2_S1_L008_R1_001.fastq.gz1d52b41e761.fastq' -2 '/var/folders/kz/whz8fzds0l17nwr80rzmymph0000gn/T//RtmpFV1Uu7/atac1f2_S1_L008_R2_001.fastq.gz1d5213bd970d.fastq' --fr -m 1 --best --strata --maxins 500 --phred33-quals -S -p 1 '/var/folders/kz/whz8fzds0l17nwr80rzmymph0000gn/T//RtmpFV1Uu7/atac1f2_S1_L008_R1_001.fastq.gz1d52b41e761.fastq1d52407e09b.sam'"
-[1] "Converting sam file to sorted bam file on staff-200-195.eduroam.unibe.ch : /var/folders/kz/whz8fzds0l17nwr80rzmymph0000gn/T//RtmpFV1Uu7/atac1f2_S1_L008_R1_001.fastq.gz1d52b41e761.fastq1d52407e09b.sam"
-[1] "Genomic alignments for sample 1 (atac1f2) have been successfully created on staff-200-195.eduroam.unibe.ch"
