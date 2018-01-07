@@ -50,29 +50,34 @@ for i in `seq 0 $length`; do
 	insam=`echo ${samfiles[$i]}`
 	outbam=`echo $insam | sed "s@.sam@.bam@"`
 	##convert samfiles to bamfiles and sort:
-	samtools view -u ${samfiles[$i]} | samtools sort -o $outbam 
+	samtools view -q 10 -F2304 -u ${samfiles[$i]} | samtools sort -o $outbam 
 	#get alignment stats
-	samtools flagstats $outbam > ./txt/report_flagstats.txt
+	samtools flagstat $outbam > ./txt/report_flagstats.txt
 	samtools stats $outbam > ./txt/report_stats.txt
+	#use picard to remove duplicates:
+	cleanbam=`echo $outbam | sed "s@.bam@.clean.bam@"`
+	java -Xmx5g -jar $PICARD MarkDuplicates I=$outbam O=$cleanbam M=./txt/picard_out.txt
+	#to remove mitochondrial reads
+	#samtools view -h -F1024 $cleanbam | grep -v -e '\tMtDNA\t' | samtools view -b -> $tmpbam
 done
 
 
-# 
-# My 2p, not really answering the question about the 30bp trimming. I had good results (=sensible) processing ATAC-Seq as pretty much a standard ChIP-Seq. This is my pipeline for reads of 75 bp:
-# 
-# Trim adapters with cutadapt (or similar)
-# 
-# Align with bwa mem with default settings
-# 
-# Discard alignments with flag 2304 (not primary or supplementary alignment) and mapq < 10
-# 
-# If a "blacklist" of ChIP-seq genomic regions is available, remove reads in these regions
-# 
-# Mark duplicates with picard
-# 
-# Remove duplicates and reads on mitochondrial genome (ATAC-Seq maps a lot of reads on chrM, up to 40-60% and I prefer to remove them before peak calling)
-# 
-# Call peaks with macs2. For human samples I find in tens to hundreds of thousands of peaks looking pretty sharp, often in proximity of TSS.
-# 
-# More detail here https://github.com/sblab-bioinformatics/dna-secondary-struct-chrom-lands/blob/master/Methods.md where I put this as supplementary material to a paper (1) we recently published using ATAC-Seq (and other stuff).
+
+# create arrays of file names
+cleanfiles=(`ls ./aln/*.clean.bam`)
+mkdir -p ./macs2peaks
+
+source activate py27
+# ordinal number of samFile input from command line arg
+length=`echo ${#cleanfiles[@]}`
+let length=length-1
+for i in `seq 0 $length`; do
+	cleanbam=`echo ${cleanfiles[$i]}`
+	bname=`echo $cleanbam | sed "s@.clean.bam@@"`
+	bname=`echo $bname | sed "s@./aln@./macs2peaks@"`
+	macs2 callpeak --keep-dup all -t $cleanbam -n ${bname}
+done	
+
+source deactivate
+
 

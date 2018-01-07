@@ -8,10 +8,10 @@ genomeFile<-"/Users/semple/Documents/MeisterLab/GenomeVer/sequence/c_elegans.PRJ
 #removing adaptors
 #create new directory for trimmed seqs
 # dir.create("./trimmed",showWarnings=F)
-# samples<-read.delim(sampleFile,header=T,as.is=T)
-# samples1<-sub("rawData/", "trimmed/", samples)
-# names(samples1)<-names(samples)
-# samples1<-as.data.frame(t(samples1),stringsAsFactors=F)
+samples<-read.delim(sampleFile,header=T,as.is=T)
+samples1<-sub("rawData/", "cutadapt/", samples)
+names(samples1)<-names(samples)
+samples1<-as.data.frame(t(samples1),stringsAsFactors=F)
 
 #read in adaptor file
 # atacAdapt<-read.delim("./atacPrimers.txt",header=T,as.is=T)
@@ -27,9 +27,9 @@ genomeFile<-"/Users/semple/Documents/MeisterLab/GenomeVer/sequence/c_elegans.PRJ
 #   res
 # }
 #
-# #create a new sampleFile so alignment will be done with trimmed seqs
-# write.table(samples1,file="./txt/sampleFile_trimmed.txt",quote=F,sep="\t",row.names=F)
-# sampleFile<-"./txt/sampleFile_trimmed.txt"
+#create a new sampleFile so alignment will be done with trimmed seqs
+write.table(samples1,file="./txt/sampleFile_cutadapt.txt",quote=F,sep="\t",row.names=F)
+sampleFile<-"./txt/sampleFile_cutadapt.txt"
 
 # #Align to E coli genome as auxiliary file
 # library(BSgenome.Ecoli.NCBI.20080805)
