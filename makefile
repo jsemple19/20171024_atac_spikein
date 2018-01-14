@@ -25,7 +25,7 @@ clean:
 	rm -f $(statsObjects)
 	
 .PHONY: all clean
-.INTERMEDIATE: aln/*.sam aln/*.sorted.bam aln/*.noDup.bam cutadapt/*.fastq.gz
+.INTERMEDIATE: aln/*.sam aln/*.noDup.bam cutadapt/*.fastq.gz
 
 ########### VARIABLES #########
 genomefile:=/Users/semple/Documents/MeisterLab/GenomeVer/sequence/c_elegans.PRJNA13758.WS250.genomic.fa
