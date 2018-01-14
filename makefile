@@ -19,7 +19,7 @@ clean:
 	rm -f $(statsObjects)
 
 .PHONY: all clean
-.INTERMEDIATE: aln/*.sam aln/*.noDup.bam cutadapt/*.fastq.gz
+.INTERMEDIATE: $(wildcard aln/*.sam) $(wildcard aln/*.noDup.bam) $(wildcard cutadapt/*.fastq.gz)
 
 
 
