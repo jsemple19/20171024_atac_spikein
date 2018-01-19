@@ -7,7 +7,7 @@ OBJDIR := macs2peaks
 bname :=  atac1f2_S1_L008
 objects := $(addprefix $(OBJDIR)/$(bname), _model.r _peaks.narrowPeak \
 	_peaks.xls _summits.bed)
-statsObjects := txt/report_$(bname)_flagstats.txt txt/report_$(bname)_stats.txt
+statsObjects := aln/report_$(bname)_flagstats.txt aln/report_$(bname)_stats.txt
 
 
 ########### RULES  ############
@@ -39,15 +39,15 @@ aln/%.sorted.bam: aln/%.sam
 	samtools view -q 10 -F2304 -u $^ | samtools sort -o $@
 
 # 	get alignment stats
-txt/report_%_flagstats.txt: aln/%.sorted.bam
+aln/report_%_flagstats.txt: aln/%.sorted.bam
 	samtools flagstat $^ > $@
 
-txt/report_%_stats.txt: aln/%.sorted.bam
+aln/report_%_stats.txt: aln/%.sorted.bam
 	samtools stats $^ > $@
 
 # find duplicates with picard  (path to picard should be set in $PICARD variable in .bash_profile or in session)
 aln/%.noDup.bam txt/picard_%.txt: aln/%.sorted.bam $(PICARD)
-	java -Xmx5g -jar $(PICARD) MarkDuplicates I=aln/$*.sorted.bam O=aln/$*.noDup.bam M=txt/picard_$*.txt
+	java -Xmx5g -jar $(PICARD) MarkDuplicates I=aln/$*.sorted.bam O=aln/$*.noDup.bam M=aln/picard_$*.txt
 
 # 	remove mitochondrial reads
 aln/%.noMito.bam: aln/%.noDup.bam
@@ -57,7 +57,7 @@ aln/%.noMito.bam: aln/%.noDup.bam
 macs2peaks/%_model.r macs2peaks/%_peaks.narrowPeak macs2peaks/%_peaks.xls macs2peaks/%_summits.bed: aln/%.noMito.bam
 	mkdir -p ./macs2peaks
 	( bash -c "source ${HOME}/anaconda/bin/activate py27; \
-		macs2 callpeak --keep-dup all -t aln/$*.noMito.bam -n macs2peaks/$* ")
+		macs2 callpeak --format BAMPE --keep-dup all -t aln/$*.noMito.bam -n macs2peaks/$* ")
 
 
 
